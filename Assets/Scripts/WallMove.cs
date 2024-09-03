@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class WallMove : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    // オブジェクトが生成されたときに一度だけ実行される関数
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
+
+
+    // 1フレームごとに実行される関数
     void Update()
     {
-        
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.back * 10f; // 速さを直接入れる
     }
 }
