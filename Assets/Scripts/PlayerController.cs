@@ -29,5 +29,24 @@ public class playercontroler : MonoBehaviour
         {
             transform.position += new Vector3(-0.01f, 0, 0);
         }
+
+        //transformを取得
+        Transform myTransform = this.transform;
+
+        //ワールド座標を基準にスクリプトをアタッチしたオブジェクトの座標を取得
+        Vector3 worldPos = myTransform.position;
+        float x = worldPos.x;
+        float y = worldPos.y;
+        float z = worldPos.z;
+
+        if (y <= -30)
+        {
+            worldPos.x = 0;
+            worldPos.y = 1.5f;
+            worldPos.z = 0;
+
+            myTransform.position = worldPos;
+
+        }
     }
 }
