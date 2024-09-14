@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerShapeChange : MonoBehaviour
 {
-
     public GameObject spherePrefab;  // SphereのPrefabを設定
-
-    public GameObject capsulePrefab; // CubeのPrefabを設定
+    public GameObject capsulePrefab; // capsuleのPrefabを設定
+    public GameObject cubePrefab; //CubeのPrefabを設定
+    public GameObject cylinderPrefab; // cylinderのPrefabを設定
+    
     private GameObject player;
-    private bool isCube = true;  // Cubeかどうかを判定するフラグ
 
     // Start is called before the first frame update
     void Start()
@@ -20,54 +20,29 @@ public class PlayerShapeChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player.tag);
-        // 特定のキー（スペースキー）で形状を変更
-        if (Input.GetKeyDown(KeyCode.Space))
+
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // 触れたオブジェクトのMeshFiletrとCollider
+        MeshFilter otherMeshFilter = collision.gameObject.GetComponent<MeshFilter>();
+        Collider othercollider = collision.gameObject.GetComponent<Collider>();
+        string other_name = collision.gameObject.name;
+
+        // 現在のオブジェクトのMeshFilterとCollider
+        MeshFilter playerMeshFilter = player.GetComponent<MeshFilter>();
+        Collider playercollider = player.GetComponent<Collider>();
+
+        if (otherMeshFilter != null && playerMeshFilter != null && other_name != "Plane" && other_name != "Wall") // 床に触れても変更しないようにしておく
         {
-            Debug.Log("space");
-            if (isCube)
-            {
+            // プレイヤーのメッシュを触れたオブジェクトのメッシュに変更
+            // 当たり判定も一緒に
+            playerMeshFilter.mesh = otherMeshFilter.mesh;
 
-                ChangeToSphere();
-            }
-            else
-            {
-                ChangeToCube();
-            }
-        }
-        void ChangeToSphere()
-        {
-            Debug.Log("ChangeToSphere"); // ログを表示する
-
-            // 現在のCubeを削除してSphereを生成
-            Vector3 currentPosition = player.transform.position;
-            Quaternion currentRotation = player.transform.rotation;
-            Destroy(player);// Cubeを削除
-
-            player = Instantiate(spherePrefab, currentPosition, currentRotation);  // Sphereを生成
-            
-            // プレイヤーに必要なScriptをアタッチ
-            player.AddComponent<playercontroler>();
-            player.AddComponent<PlayerShapeChange>();
-
-            isCube = false;
-        }
-        void ChangeToCube()
-        {
-            Debug.Log("ChangeToCube");
-
-            // Sphereを削除してCubeを再生成
-            Vector3 currentPosition = player.transform.position;
-            Quaternion currentRotation = player.transform.rotation;
-            Destroy(player);
-
-            player = Instantiate(capsulePrefab, currentPosition, currentRotation);  // Cubeを生成
-
-            // プレイヤーに必要なScriptをアタッチ
-            player.AddComponent<playercontroler>();
-            player.AddComponent<PlayerShapeChange>();
-
-            isCube = true;
+            // Colliderの変更
+            Destroy(playercollider);
+            player.AddComponent(othercollider.GetType());
         }
     }
 }

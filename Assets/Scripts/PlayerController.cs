@@ -42,7 +42,7 @@ public class playercontroler : MonoBehaviour
         if (y <= -30)
         {
             worldPos.x = 0;
-            worldPos.y = 1.5f;
+            worldPos.y = 4.3f;
             worldPos.z = 0;
 
             myTransform.position = worldPos;
