@@ -29,7 +29,7 @@ public class PlayerShapeChange : MonoBehaviour
         MeshFilter playerMeshFilter = player.GetComponent<MeshFilter>();
         Collider playerCollider = player.GetComponent<Collider>();
 
-        if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Plane" && other_tag != "Wall")
+        if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Ground" && other_tag != "Wall")
         {
             // プレイヤーのメッシュを触れたオブジェクトのメッシュに変更
             playerMeshFilter.mesh = otherMeshFilter.mesh;
@@ -52,6 +52,23 @@ public class PlayerShapeChange : MonoBehaviour
                 // 通常のColliderの場合
                 player.AddComponent(otherCollider.GetType());
             }
+
+            // プレイヤーの座標を調整
+            AdjustPlayerPosition();
         }
+    }
+
+    // プレイヤーの座標調整
+    void AdjustPlayerPosition()
+    {
+        // プレイヤーのメッシュバウンディングボックスを取得
+        Mesh playerMesh = player.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = playerMesh.bounds;
+
+        // 地面と接しているかのようにY座標を調整する
+        Vector3 newPosition = player.transform.position;
+        newPosition.y = 4.3f; // 必要に応じて調整する
+        player.transform.position = newPosition;
+
     }
 }

@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playercontroler : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    public float speed = 4.3f; // プレイヤーの移動速度
+    public float jumpForce = 850f; // ジャンプの力
+    private bool isGrounded; // プレイヤーが地面にいるかどうかのフラグ
+    private Rigidbody rb; // Rigidbodyコンポーネントの参照
+
     // Start is called before the first frame update
     void Start()
     {
-
+        // Rigidbodyコンポーネントを取得
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 移動処理
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += new Vector3(0, 0, 0.01f);
@@ -30,23 +37,27 @@ public class playercontroler : MonoBehaviour
             transform.position += new Vector3(-0.01f, 0, 0);
         }
 
-        //transformを取得
-        Transform myTransform = this.transform;
-
-        //ワールド座標を基準にスクリプトをアタッチしたオブジェクトの座標を取得
-        Vector3 worldPos = myTransform.position;
-        float x = worldPos.x;
-        float y = worldPos.y;
-        float z = worldPos.z;
-
-        if (y <= -20)
+        // ジャンプ処理
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            worldPos.x = 0;
-            worldPos.y = 4.3f;
-            worldPos.z = 0;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // ジャンプ力を追加
+            isGrounded = false; // ジャンプ中は地面にいないと判定
+        }
 
-            myTransform.position = worldPos;
+        // Y座標が-20以下になったらプレイヤーをリセット
+        if (transform.position.y <= -20)
+        {
+            transform.position = new Vector3(0, 4.3f, 0);
+            rb.velocity = Vector3.zero; // リセット時に速度をリセット
+        }
+    }
 
+    // 地面に着いたかどうかを判定
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true; // 地面に着地したらフラグを立てる
         }
     }
 }
