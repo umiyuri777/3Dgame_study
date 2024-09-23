@@ -39,7 +39,7 @@ public class playercontroler : MonoBehaviour
         float y = worldPos.y;
         float z = worldPos.z;
 
-        if (y <= -30)
+        if (y <= -20)
         {
             worldPos.x = 0;
             worldPos.y = 4.3f;

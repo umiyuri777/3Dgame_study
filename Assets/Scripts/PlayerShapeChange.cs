@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class PlayerShapeChange : MonoBehaviour
 {
-    public GameObject spherePrefab;  // SphereのPrefabを設定
-    public GameObject capsulePrefab; // capsuleのPrefabを設定
-    public GameObject cubePrefab; //CubeのPrefabを設定
-    public GameObject cylinderPrefab; // cylinderのPrefabを設定
-    
     private GameObject player;
 
     // Start is called before the first frame update
@@ -25,24 +20,38 @@ public class PlayerShapeChange : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // 触れたオブジェクトのMeshFiletrとCollider
+        // 触れたオブジェクトのMeshFilterとCollider
         MeshFilter otherMeshFilter = collision.gameObject.GetComponent<MeshFilter>();
-        Collider othercollider = collision.gameObject.GetComponent<Collider>();
+        Collider otherCollider = collision.gameObject.GetComponent<Collider>();
         string other_name = collision.gameObject.name;
 
         // 現在のオブジェクトのMeshFilterとCollider
         MeshFilter playerMeshFilter = player.GetComponent<MeshFilter>();
-        Collider playercollider = player.GetComponent<Collider>();
+        Collider playerCollider = player.GetComponent<Collider>();
 
-        if (otherMeshFilter != null && playerMeshFilter != null && other_name != "Plane" && other_name != "Wall") // 床に触れても変更しないようにしておく
+        if (otherMeshFilter != null && playerMeshFilter != null && other_name != "Plane" && other_name != "Wall")
         {
             // プレイヤーのメッシュを触れたオブジェクトのメッシュに変更
-            // 当たり判定も一緒に
             playerMeshFilter.mesh = otherMeshFilter.mesh;
 
             // Colliderの変更
-            Destroy(playercollider);
-            player.AddComponent(othercollider.GetType());
+            Destroy(playerCollider);
+
+            // MeshColliderの場合の分岐
+            if (otherCollider is MeshCollider otherMeshCollider)
+            {
+                // MeshColliderのコピー
+                MeshCollider newMeshCollider = player.AddComponent<MeshCollider>();
+                newMeshCollider.sharedMesh = otherMeshCollider.sharedMesh;
+
+                // 凸型にするかどうか判定
+                newMeshCollider.convex = otherMeshCollider.convex;
+            }
+            else
+            {
+                // 通常のColliderの場合
+                player.AddComponent(otherCollider.GetType());
+            }
         }
     }
 }
