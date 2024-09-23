@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 4.3f; // プレイヤーの移動速度
-    public float jumpForce = 850f; // ジャンプの力
+    public float jumpForce = 30f; // ジャンプの力
     private bool isGrounded; // プレイヤーが地面にいるかどうかのフラグ
     private Rigidbody rb; // Rigidbodyコンポーネントの参照
 
