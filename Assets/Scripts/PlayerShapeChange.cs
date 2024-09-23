@@ -23,13 +23,13 @@ public class PlayerShapeChange : MonoBehaviour
         // 触れたオブジェクトのMeshFilterとCollider
         MeshFilter otherMeshFilter = collision.gameObject.GetComponent<MeshFilter>();
         Collider otherCollider = collision.gameObject.GetComponent<Collider>();
-        string other_name = collision.gameObject.name;
+        string other_tag = collision.gameObject.tag;
 
         // 現在のオブジェクトのMeshFilterとCollider
         MeshFilter playerMeshFilter = player.GetComponent<MeshFilter>();
         Collider playerCollider = player.GetComponent<Collider>();
 
-        if (otherMeshFilter != null && playerMeshFilter != null && other_name != "Plane" && other_name != "Wall")
+        if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Plane" && other_tag != "Wall")
         {
             // プレイヤーのメッシュを触れたオブジェクトのメッシュに変更
             playerMeshFilter.mesh = otherMeshFilter.mesh;
