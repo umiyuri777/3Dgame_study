@@ -20,14 +20,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // 移動処理
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.position += new Vector3(0, 0, 0.01f);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position += new Vector3(0, 0, -0.01f);
-        }
+        // 自動で直進し、左右に移動できるようにする
+        rb.velocity = Vector3.forward * 10f;
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += new Vector3(0.01f, 0, 0);

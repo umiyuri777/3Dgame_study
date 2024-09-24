@@ -17,6 +17,6 @@ public class WallMove : MonoBehaviour
     void Update()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.velocity = Vector3.back * 10f; // 速さを直接入れる
+        rb.velocity = Vector3.forward * 10f; // 速さを直接入れる
     }
 }
