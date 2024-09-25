@@ -5,8 +5,7 @@ using UnityEngine;
 public class WallCreate : MonoBehaviour
 {
     // 生成するオブジェクトのプレハブをインスペクターから指定
-    public GameObject[] wallPrefabs;  // 複数のプレハブを配列で保持
-    public GameObject[] henshinPrefabs;  
+    public GameObject[] wallPrefabs;  // 複数のプレハブを配列で保持 
 
     // プレイヤーのオブジェクトをインスペクターから指定
     private GameObject playerObject;
@@ -19,14 +18,11 @@ public class WallCreate : MonoBehaviour
     // 一つ手前の壁のオブジェクト
     private GameObject before_wall;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerObject = this.gameObject;
     }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // プレイヤーの位置を取得
         Vector3 playerPos = playerObject.transform.position;
@@ -40,7 +36,6 @@ public class WallCreate : MonoBehaviour
             // Instantiateメソッドでオブジェクトのクローンを生成
             before_wall = Instantiate(wallPrefabs[randomIndex], new Vector3(-1.5f, 3.4f, before_wallposition.z + 15), Quaternion.identity);
             before_wallposition.z += 15;
-            Debug.Log("wall created");
             isCreated = true;
         }
         if (isCreated == true && playerPos.z >= before_wallposition.z + 5)
