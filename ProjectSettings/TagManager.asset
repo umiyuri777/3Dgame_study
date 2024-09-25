@@ -6,8 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Wall
-  - Plane
   - Ground
+  - player
   layers:
   - Default
   - TransparentFX
