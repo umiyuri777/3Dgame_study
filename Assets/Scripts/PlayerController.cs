@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 4.3f; // プレイヤーの移動速度
+    public float speed = 0.05f; // プレイヤーの移動速度
     public float jumpForce = 30f; // ジャンプの力
     private bool isGrounded; // プレイヤーが地面にいるかどうかのフラグ
     private Rigidbody rb; // Rigidbodyコンポーネントの参照
@@ -21,14 +21,14 @@ public class PlayerController : MonoBehaviour
     {
         // 移動処理
         // 自動で直進し、左右に移動できるようにする
-        transform.position += new Vector3(0, 0, 0.02f); // 自動で前進
+        transform.position += new Vector3(0, 0, speed); // 自動で前進
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(0.01f, 0, 0);
+            transform.position += new Vector3(0.03f, 0, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += new Vector3(-0.01f, 0, 0);
+            transform.position += new Vector3(-0.03f, 0, 0);
         }
 
         // ジャンプ処理
