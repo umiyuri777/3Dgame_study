@@ -33,7 +33,7 @@ public class WallCreate : MonoBehaviour
             int randomIndex = Random.Range(0, wallPrefabs.Length);
 
             // Instantiateメソッドでオブジェクトのクローンを生成
-            Instantiate(wallPrefabs[randomIndex], new Vector3(5, 4, 15), Quaternion.identity);
+            Instantiate(wallPrefabs[randomIndex], new Vector3(5, 4, 20), Quaternion.identity);
             Debug.Log("wall created");
             isCreated = true;
         }
