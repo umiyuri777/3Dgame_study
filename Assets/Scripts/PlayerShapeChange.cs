@@ -6,16 +6,10 @@ public class PlayerShapeChange : MonoBehaviour
 {
     private GameObject player;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         player = this.gameObject;  // 現在のプレイヤーオブジェクトを取得
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void OnCollisionEnter(Collision collision)
@@ -23,11 +17,13 @@ public class PlayerShapeChange : MonoBehaviour
         // 触れたオブジェクトのMeshFilterとCollider
         MeshFilter otherMeshFilter = collision.gameObject.GetComponent<MeshFilter>();
         Collider otherCollider = collision.gameObject.GetComponent<Collider>();
+        MeshRenderer otherMeshRenderer = collision.gameObject.GetComponent<MeshRenderer>();
         string other_tag = collision.gameObject.tag;
 
         // 現在のオブジェクトのMeshFilterとCollider
         MeshFilter playerMeshFilter = player.GetComponent<MeshFilter>();
         Collider playerCollider = player.GetComponent<Collider>();
+        MeshRenderer playerMeshRenderer = player.GetComponent<MeshRenderer>();
 
         if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Ground" && other_tag != "Wall")
         {
@@ -36,39 +32,14 @@ public class PlayerShapeChange : MonoBehaviour
 
             // Colliderの変更
             Destroy(playerCollider);
+            // Colliderの追加
+            player.AddComponent(otherCollider.GetType());
 
-            // MeshColliderの場合の分岐
-            if (otherCollider is MeshCollider otherMeshCollider)
+            // プレイヤーのマテリアルを触れたオブジェクトのマテリアルに変更
+            if (otherMeshRenderer != null && playerMeshRenderer != null)
             {
-                // MeshColliderのコピー
-                MeshCollider newMeshCollider = player.AddComponent<MeshCollider>();
-                newMeshCollider.sharedMesh = otherMeshCollider.sharedMesh;
-
-                // 凸型にするかどうか判定
-                newMeshCollider.convex = otherMeshCollider.convex;
+                playerMeshRenderer.material = otherMeshRenderer.material;
             }
-            else
-            {
-                // 通常のColliderの場合
-                player.AddComponent(otherCollider.GetType());
-            }
-
-            // プレイヤーの座標を調整
-            AdjustPlayerPosition();
         }
-    }
-
-    // プレイヤーの座標調整
-    void AdjustPlayerPosition()
-    {
-        // プレイヤーのメッシュバウンディングボックスを取得
-        Mesh playerMesh = player.GetComponent<MeshFilter>().mesh;
-        Bounds bounds = playerMesh.bounds;
-
-        // 地面と接しているかのようにY座標を調整する
-        Vector3 newPosition = player.transform.position;
-        newPosition.y = 4.3f; // 必要に応じて調整する
-        player.transform.position = newPosition;
-
     }
 }

@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     {
         // 移動処理
         // 自動で直進し、左右に移動できるようにする
-        // rb.velocity = Vector3.forward * 10f;
         transform.position += new Vector3(0, 0, 0.02f); // 自動で前進
         if (Input.GetKey(KeyCode.D))
         {
@@ -47,17 +46,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 地面に着いたかどうかを判定
     private void OnCollisionEnter(Collision collision)
     {
+        // 地面に着いたかどうかを判定
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true; // 地面に着地したらフラグを立てる
-        }
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            // transform.position = new Vector3(0, 4.3f, 0);
-            // rb.velocity = Vector3.zero; // リセット時に速度をリセット
         }
     }
 }
