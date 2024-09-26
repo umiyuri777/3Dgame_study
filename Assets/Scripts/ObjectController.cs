@@ -50,9 +50,24 @@ public class ObjectController : MonoBehaviour
 
             List <int> objectNumbers = new List<int> { randomIndex, number2, number3 };
 
+            // ObjectNumbersをシャッフル
+            objectNumbers = shuffle(objectNumbers);
+
             time_value = 0;
             wallFactory.create(randomIndex);
             objectFactory.create(objectNumbers);
         }
+    }
+
+    List<int> shuffle(List<int> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+        return list;
     }
 }

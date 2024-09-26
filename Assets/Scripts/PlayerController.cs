@@ -16,19 +16,18 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // 移動処理
         // 自動で直進し、左右に移動できるようにする
         transform.position += new Vector3(0, 0, speed); // 自動で前進
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(0.03f, 0, 0);
+            transform.position += new Vector3(0.25f, 0, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += new Vector3(-0.03f, 0, 0);
+            transform.position += new Vector3(-0.25f, 0, 0);
         }
 
         // ジャンプ処理

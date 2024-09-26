@@ -25,7 +25,7 @@ public class PlayerShapeChange : MonoBehaviour
         Collider playerCollider = player.GetComponent<Collider>();
         MeshRenderer playerMeshRenderer = player.GetComponent<MeshRenderer>();
 
-        if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Ground" && other_tag != "Wall")
+        if (otherMeshFilter != null && playerMeshFilter != null && other_tag != "Ground" && other_tag != "Wall" && other_tag != "goal")
         {
             // プレイヤーのメッシュを触れたオブジェクトのメッシュに変更
             playerMeshFilter.mesh = otherMeshFilter.mesh;
